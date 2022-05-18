@@ -1,0 +1,3 @@
+<?php //stdClass
+
+return [PHP_INT_MAX, []];
