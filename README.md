@@ -7,4 +7,4 @@ I set up a PHP skeleton with Symfony that works as a functional basic api. This 
 This backend section works with Postman and other APIs platforms. Videos and users can be created, edited, deleted and listed.
 
 ## Angular
-The Angular section of the project let the user utilise the api intuitively with graphic elements developed through Angular components. Thanks to the Angular tools the user can register and log in in a way we can manage.
+The Angular section of the project let the user utilise the api intuitively with graphic elements developed through Angular components. Thanks to the Angular tools the user will register and access the web in a way that we can manage. We will decide which elements they can interact with.
