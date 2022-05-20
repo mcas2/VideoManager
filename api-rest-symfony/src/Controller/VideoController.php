@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\User;
 use App\Entity\Video;
+use Symfony\Component\PropertyAccess\Exception\AccessException;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Validation;
@@ -244,14 +245,26 @@ class VideoController extends AbstractController
             if ($video && is_object($video) && $identity->sub == $video->getUser()->getId()) {
                 $data = [
                     'status' => 'success',
-                    'code' => 200,
-                    'video' => $video
+                    'code' => 200
                 ];
+
+                /* Lo que ocurre aquí es lo siguiente:
+                En este punto del código $video está lleno, con sus datos y su id. Cuando lo borramos con remove,
+                se elimina en el entityManager y esto se hace efectivo con el flush.
+                Cuando retornamos el resjson devolvemos $data, que incluye el vídeo que ya ha sido borrado, de forma que
+                al intentar recuperar su id tenemos una excepción:
+
+                    "Uncaught PHP Exception Symfony\Component\PropertyAccess\Exception\AccessException:
+                    The method "App\Entity\Video::getId()" returned "null", but expected type "int"."
+
+                Ese es el error que nos da tanto la consola de Symfony como la consola del navegador. El vídeo, sin embargo, ya
+                está borrado y por eso cuando recargamos la página o lo intentamos borrar otra vez desaparece de "mis vídeos".
+                La solución ha sido no devolver el vídeo en el $data. */
 
                 $em->remove($video);
                 $em->flush();
             }
         }
-        return $this->resjson($data);
+            return $this->resjson($data);
     }
 }

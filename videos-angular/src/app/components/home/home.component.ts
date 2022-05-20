@@ -90,14 +90,12 @@ export class HomeComponent implements OnInit {
     thumburl = 'http://img.youtube.com/vi/' + video + '/mqdefault.jpg';
 
     return thumburl;
-
   }
 
   deleteVideo(id: any) {
     this._videoService.delete(this.token, id).subscribe(
       response => {
         this.actualPageVideos();
-        
       },
       error => {
         console.log(error);
