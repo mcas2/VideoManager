@@ -97,6 +97,7 @@ export class HomeComponent implements OnInit {
     this._videoService.delete(this.token, id).subscribe(
       response => {
         this.actualPageVideos();
+        
       },
       error => {
         console.log(error);

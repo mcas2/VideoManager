@@ -242,14 +242,14 @@ class VideoController extends AbstractController
             ]);
 
             if ($video && is_object($video) && $identity->sub == $video->getUser()->getId()) {
-                $em->remove($video);
-                $em->flush();
-
                 $data = [
                     'status' => 'success',
                     'code' => 200,
                     'video' => $video
                 ];
+
+                $em->remove($video);
+                $em->flush();
             }
         }
         return $this->resjson($data);
